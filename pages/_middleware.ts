@@ -6,7 +6,10 @@ export default function middleware(req: NextRequest) {
     const country = req.geo?.country
 
     if(req.nextUrl.pathname === '/not-legal') {
-        return NextResponse.next()
+        if(country === BLOCKED_COUNTRY) {
+            return NextResponse.next()
+        }
+        return NextResponse.redirect('/')
     }
 
     if(country === BLOCKED_COUNTRY) {
